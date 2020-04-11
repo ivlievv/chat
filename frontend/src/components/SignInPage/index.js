@@ -1,18 +1,41 @@
 import React from "react";
 import { Form, Field, withFormik} from "formik";
 import Input from "../Input";
+import * as yup from 'yup'
+
+const emailSchema = yup.string().email().required()
+
 
 const handleSubmit = (values) => {
     console.log(values)
 }
 
 const SignInForm  = (props) =>{
-    console.log(props)
-    const emailValidate = (value) => {}
+
+    const emailValidate = async (value) => {
+        try {
+            await emailSchema.validate(value)
+        }catch (e) {
+            return  e.message
+        }
+    }
+
     return (
         <Form>
-            <Field type="email" validate={emailValidate} name="email" onChange={(e) => console.log(e.target.value)} component={Input}/>
-            <Field type="password" name="password"/>
+            <Field validate={emailValidate}
+                   type="email"
+                   name="email"
+                   onChange={(e) => {console.log(e.target.value);}}
+            >
+                {
+                    (fieldProps) => (<Input {...fieldProps} label="Test"/>)
+                }
+
+                </Field>
+            <Field type="password"
+                   name="password"
+
+            />
             <div onClick={props.submitForm}>login</div>
         </Form>
     )
@@ -21,10 +44,6 @@ const SignInForm  = (props) =>{
 
 export default withFormik ({
     mapPropsToValues: () => ({email: '', password: ''}),
-    initialValues: {
-        email: '',
-        password: ''
-    },
                             handleSubmit
                                 })
 (SignInForm)
