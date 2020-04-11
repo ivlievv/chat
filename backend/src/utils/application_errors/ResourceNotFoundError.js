@@ -1,8 +1,8 @@
 const ApplicationError = require( './ApplicationError.js' );
 
 class ResourceNotFoundError extends ApplicationError {
-  constructor (resource = 'resource') {
-    super( `Error 404: ${resource} not found.`, 404 );
+  constructor (resource) {
+    super( `Error 404: ${`"${resource}"` || 'resource'} not found`, 404 );
   }
 }
 

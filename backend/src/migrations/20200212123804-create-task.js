@@ -8,19 +8,13 @@ module.exports = {
         primaryKey: true,
         type: Sequelize.INTEGER
       },
-      value: {
-        type: Sequelize.STRING,
-        allowNull: false,
-        validate: {
-          notEmpty: true,
-        }
-      },
       deadline: {
         type: Sequelize.DATE,
         allowNull: false,
-        validate: {
-          isDate: true,
-        }
+      },
+      value: {
+        type: Sequelize.STRING,
+        allowNull: false,
       },
       userId: {
         type: Sequelize.INTEGER,
@@ -28,16 +22,13 @@ module.exports = {
         references: {
           model: 'Users',
           key: 'id',
-        }
-      },
-      isDone: {
-        type: Sequelize.BOOLEAN,
-        defaultValue: false,
-        allowNull: false,
+        },
+        onDelete: 'CASCADE',
+        onUpdate: 'RESTRICT',
       },
       files: {
         type: Sequelize.ARRAY( Sequelize.STRING ),
-        allowNull: true
+        allowNull: true,
       },
       createdAt: {
         allowNull: false,

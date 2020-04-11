@@ -2,7 +2,7 @@ const fs = require( 'fs' );
 const path = require( 'path' );
 const basename = path.basename( __filename );
 
-const controllers = {};
+const seaHorseController = {};
 
 fs
   .readdirSync( __dirname )
@@ -11,7 +11,7 @@ fs
   } )
   .forEach( file => {
     const controller = require( path.join( __dirname, file ) );
-    controllers[controller.constructor.name] = controller;
+    seaHorseController[controller.constructor.name] = controller;
   } );
 
-module.exports = controllers;
+module.exports = seaHorseController;

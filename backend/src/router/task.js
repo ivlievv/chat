@@ -1,14 +1,9 @@
 const express = require( 'express' );
-const taskRouter = express.Router();
 const { TaskController } = require( '../controllers' );
-const { checkAuthorization } = require( '../middlewares/authorization' );
 
-taskRouter.use( checkAuthorization );
-
-
+const taskRouter = express.Router();
 taskRouter.route( '/tasks' )
           .get( TaskController.getUserTasks );
-
 taskRouter.route( '/task(/:id)?' )
           .post( TaskController.createTask )
           .get( TaskController.getTaskById )

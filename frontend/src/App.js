@@ -14,7 +14,8 @@ function App() {
       <SignUpPage/>
     </Route>
     <Route path={["/sign_in", "/login"]}>
-      <SignInPage/>
+      <SignInPage
+      />
     </Route>
   </Switch>
 </Router>

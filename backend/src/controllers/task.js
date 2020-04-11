@@ -1,5 +1,5 @@
-const { Task } = require( './../models' );
-const Controller = require( './../utils/controller' );
+const { Task } = require( '../models' );
+const Controller = require( '../utils/controller' );
 
 class TaskController {
 
@@ -9,20 +9,13 @@ class TaskController {
 
   createTask = async (req, res, next) => {
     try {
+
+      debugger;
+
       res.send( await this._controller.create( {
                                                  ...req.body,
-                                                 userId: req.authorizationData.id
+                                                 userId: req.authorizationData.id,
                                                } ) );
-    } catch (e) {
-      next( e );
-    }
-  };
-
-  deleteTaskById = async (req, res, next) => {
-    try {
-      res.send( {
-                  isDeleted: (await this._controller.delete( req.params.id )) === '1'
-                } );
     } catch (e) {
       next( e );
     }
@@ -38,28 +31,36 @@ class TaskController {
 
   updateTaskById = async (req, res, next) => {
     try {
-
       res.send( await this._controller.update( req.params.id, req.body ) );
-
     } catch (e) {
       next( e );
     }
   };
+
+  deleteTaskById = async (req, res, next) => {
+    try {
+      await this._controller.delete( req.params.id );
+      res.sendStatus( 200 );
+    } catch (e) {
+      next( e );
+    }
+  };
+
   getUserTasks = async (req, res, next) => {
     try {
-      const userTasks = await Task.findAll( {
-                                              where: {
-                                                userId: req.authorizationData.id,
-                                              },
-                                              limit: 10,
-                                              order: [['createdAt', 'DESC']]
-                                            } );
 
-      res.send( userTasks );
+      const tasks = await Task.findAll( {
+                                          where: {
+                                            userId: req.authorizationData.id,
+                                          },
+                                          order: [['createdAt', 'DESC']]
+                                        } );
+      res.send( tasks );
     } catch (e) {
       next( e );
     }
   };
+
 }
 
 module.exports = new TaskController();

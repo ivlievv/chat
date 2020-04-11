@@ -8,11 +8,9 @@ adminRouter.route( '/users' )
                const users = await User.findAll( {
                                                    limit: req.query.limit || 40,
                                                    offset: req.query.offset || 0,
-                                                   attributes: {
-                                                     exclude: ['password']
-                                                   }
                                                  } );
                res.send( users );
+
              } catch (e) {
                next( e );
              }
